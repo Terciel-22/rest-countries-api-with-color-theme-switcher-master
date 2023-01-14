@@ -11,140 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.1/css/all.css" />
 
-    <style>
-        * {
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
-        body {
-            font-size: 14px;
-            font-family: "Nunito",sans-serif;
-            font-weight: 300;
-        }
-
-        .container {
-            padding: 1rem 5rem;
-        }
-
-        header {
-            box-shadow: 0 2px 4px 2px rgba(0,0,0,.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header > a {
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-        header > a:hover {
-            opacity: .9;
-        }
-
-        main {
-            min-height: 100vh;
-        }
-        main > .selectors {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        main > .selectors > .search-box {
-            width: 25rem;
-        }
-        main > .selectors > .search-box > input,
-        main > .selectors > .filterer > select {
-            padding: 1rem;
-            border: none;
-            box-shadow: 0 2px 4px 2px rgba(0,0,0,.2);
-            outline: none;
-            border-radius: 0.2rem;
-        }
-        main > .selectors > .search-box > input {
-            padding-left: 3rem;
-            width: 100%;
-        }
-        main > .selectors > .search-box > .fa-magnifying-glass {
-            position: absolute;
-            color: #888;
-            top: 5.6rem;
-            left: 6rem;
-            z-index: 2;
-        }
-        main > #countries {
-            margin-top: 3rem;
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        main > #countries > .country {
-            width: 14rem;
-            margin-bottom: 4rem;
-            box-shadow: 0 2px 4px 2px rgba(0,0,0,.2);
-            border-radius: 0.2rem;
-            display: flex;
-            flex-flow: column;
-            overflow: hidden;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
-        main > #countries > .country:hover {
-            opacity: 0.5;
-        }
-        main > #countries > .country > img {
-            height: 50%;
-            width: 100%;
-        }
-        main > #countries > .country > .description {
-            padding: 1rem;
-        }
-        main > #countries > .country > .description > h3 {
-            margin-bottom: 1rem;
-        }
-        main > #countries > .country > .description > h5 {
-            margin-bottom: 0.5rem;
-        }
-        main > #countries > .country > .description > h5 > span {
-            font-weight: 300;
-        }
-        .darkmode-background{
-            background: hsl(207, 26%, 17%);
-            color: hsl(0, 0%, 100%);
-        }
-        .darkmode-element{
-            background: hsl(209, 23%, 22%);
-            color: hsl(0, 0%, 100%);
-        }
-
-        @media only screen and (max-width: 375px)
-        {
-            .container {
-                padding: 1rem 1rem;
-            }
-            
-            main > .selectors {
-                display: flex;
-                align-items: flex-start;
-                flex-direction: column;
-            }
-            main > .selectors > .search-box {
-                margin-bottom: 1rem;
-                width: 100%;
-            }
-            main > .selectors > .search-box > .fa-magnifying-glass {
-                left: 2rem;
-            }
-            main > #countries {
-                flex-direction: column;
-                align-items: center;
-            }
-            main > #countries > .country {
-                width: 20rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="container" id="header">
@@ -177,16 +44,28 @@
         <div id="countries"></div>
     </main>
 
-    <!-- <img src="design/desktop-design-home-light.jpg" alt=""> -->
     <script>
+
+        const urlString = window.location.href;
+        const url = new URL(urlString);
+        let isDarkMode = url.searchParams.get("dm");
         
-        let isDarkMode = false;
+        if(isDarkMode === "true")
+        {
+            document.getElementById("main").classList.add("darkmode-background");
+            document.getElementById("header").classList.add("darkmode-element");
+            document.getElementById("search").classList.add("darkmode-element");
+            document.getElementById("region").classList.add("darkmode-element");
+        } else 
+        {
+            isDarkMode = false;
+        }
 
         async function getCountries()
         {
-            const response = await fetch("https://restcountries.com/v3.1/all?fields=name,capital,population,region,flags");
+            const response = await fetch("https://restcountries.com/v3.1/all?fields=name,capital,population,region,flags,cca3");
             const countries = await response.json();
-            document.getElementById("countries").innerHTML =  countries.map((country)=>{
+            document.getElementById("countries").innerHTML = await countries.map((country)=>{
                 let containerStyle = "";
                 if(isDarkMode)
                 {
@@ -195,7 +74,7 @@
                     containerStyle = "country";
                 }
                 return (`
-                    <div class="${containerStyle}">
+                    <div class="${containerStyle}" id="${country.cca3}">
                         <img src="${country.flags.png}" alt="Flag of ${country.name.common}" />  
                         <div class="description">
                             <h3>${country.name.common}</h3>
@@ -206,6 +85,9 @@
                     </div>
                 `);
             }).join("");
+            
+            const countryList = await document.querySelectorAll(".country");
+            countrySelector(countryList);
         }
         getCountries();
 
@@ -222,7 +104,7 @@
                     containerStyle = "country";
                 }
                 return (`
-                    <div class="${containerStyle}">
+                    <div class="${containerStyle}" id="${country.cca3}">
                         <img src="${country.flags.png}" alt="Flag of ${country.name.common}" />  
                         <div class="description">
                             <h3>${country.name.common}</h3>
@@ -233,6 +115,8 @@
                     </div>
                 `);
             }).join("");
+            const countryList = await document.querySelectorAll(".country");
+            countrySelector(countryList);
         });
 
         const search = document.getElementById("search");
@@ -255,6 +139,7 @@
             {
                 const countries = await response.json();
                 document.getElementById("countries").innerHTML =  countries.map((country)=>{
+                    region.value = "";
                     let containerStyle = "";
                     if(isDarkMode)
                     {
@@ -263,7 +148,7 @@
                         containerStyle = "country";
                     }
                     return (`
-                        <div class="${containerStyle}">
+                        <div class="${containerStyle}"  id="${country.cca3}">
                             <img src="${country.flags.png}" alt="Flag of ${country.name.common}" />  
                             <div class="description">
                                 <h3>${country.name.common}</h3>
@@ -274,8 +159,22 @@
                         </div>
                     `);
                 }).join("");
+
+                const countryList = await document.querySelectorAll(".country");
+                countrySelector(countryList);
             }
         });
+
+        function countrySelector(nodeList)
+        {
+            for(let i=0; i < nodeList.length; i++)
+            {
+                nodeList[i].addEventListener("click", function(){
+                    selectedCountry = this.id;
+                    window.location.href = `detail.html?cca3=${this.id}&dm=${isDarkMode}`;
+                });
+            }
+        }
 
         const darkmode = document.getElementById("darkmode");
         darkmode.addEventListener("click", (e)=>{
@@ -304,10 +203,10 @@
                 for (let i = 0; i < countryContainers.length; i++) {
                     countryContainers[i].classList.remove("darkmode-element");
                 }
-
                 isDarkMode = false;
             }
         });
+
     </script>
 </body>
 </html>
