@@ -16,7 +16,7 @@
 </head>
 <body>
     <header class="container" id="header">
-        <h2>Where in the world?</h2>
+        <h1>Where in the world?</h1>
         <a id="darkmode">
             <span><i class="fa-regular fa-moon"></i></span>
             Dark mode
@@ -69,20 +69,20 @@
                     <h2>${country.name.common}</h2>
                     <div class="data">
                         <div>
-                            <h5>Native Name: <span id="nativeNames"></span></h5>
-                            <h5>Population: <span>${country.population.toLocaleString("en-Us")}</span></h5>
-                            <h5>Region: <span>${country.region}</span></h5>
-                            <h5>Sub Region: <span>${country.subregion}</span></h5>
-                            <h5>Capital: <span>${country.capital}</span></h5>
+                            <h4>Native Name: <span id="nativeNames"></span></h4>
+                            <h4>Population: <span>${country.population.toLocaleString("en-Us")}</span></h4>
+                            <h4>Region: <span>${country.region}</span></h4>
+                            <h4>Sub Region: <span>${country.subregion}</span></h4>
+                            <h4>Capital: <span>${country.capital}</span></h4>
                         </div>
                         <div>
-                            <h5>Top Level Domain: <span>${country.tld}</span></h5>
-                            <h5>Currencies: <span id="currencies"></span></h5>
-                            <h5>Languages: <span id="languages"></span></h5>
+                            <h4>Top Level Domain: <span>${country.tld}</span></h4>
+                            <h4>Currencies: <span id="currencies"></span></h4>
+                            <h4>Languages: <span id="languages"></span></h4>
                         </div>
                     </div>
 
-                    <h4>Border countries: <span id="borderCountryList"></span></h4>
+                    <h3>Border countries: <span id="borderCountryList"></span></h3>
                 </div>
             `;
             

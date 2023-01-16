@@ -93,10 +93,10 @@ main > #countries > .country > .description {
 main > #countries > .country > .description > h3 {
     margin-bottom: 1rem;
 }
-main > #countries > .country > .description > h5 {
+main > #countries > .country > .description > h4 {
     margin-bottom: 0.5rem;
 }
-main > #countries > .country > .description > h5 > span {
+main > #countries > .country > .description > h4 > span {
     font-weight: 300;
 }
 .darkmode-background{
@@ -145,10 +145,10 @@ main > #countries > .country > .description > h5 > span {
 #detail-main > #countryDetail > .details > .data > div:nth-child(2) {
     margin-left: 3rem;
 }
-#detail-main > #countryDetail > .details > .data > div > h5 {
+#detail-main > #countryDetail > .details > .data > div > h4 {
     margin-bottom: 1rem;
 }
-#detail-main > #countryDetail > .details > .data > div > h5 > span {
+#detail-main > #countryDetail > .details > .data > div > h4 > span {
     font-weight: 300;
 }
 #borderCountryList > button{
